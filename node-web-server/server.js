@@ -2,6 +2,7 @@ const express = require('express');
 
 let app = express();
 
+// Json return
 app.get('/',(request,response) => {
     response.send({
         name: 'jie',
@@ -9,6 +10,7 @@ app.get('/',(request,response) => {
     });
 });
 
+// Html
 app.get('/about', (req,res) => {
     res.send('<h1>hello about<h1>');
 });
