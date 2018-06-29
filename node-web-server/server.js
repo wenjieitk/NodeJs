@@ -21,4 +21,11 @@ app.get('/bad', (req,res) => {
     });
 });
 
-app.listen(3000);
+//middleware
+//.static = take the absolute path of directory
+//__dirname store the path of the script file excluding the parent folder -> "/Users/wenjie/Documents/GIt/nodejs_1/node-web-server"
+app.use(express.static(__dirname + '/public'));
+
+app.listen(3000,() => {
+    console.log('server is up on port 3000');
+});
