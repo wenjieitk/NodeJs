@@ -1,5 +1,7 @@
 const express = require('express');
 
+const port = process.env.PORT || 3000;
+
 let app = express();
 
 // Json return
@@ -26,6 +28,6 @@ app.get('/bad', (req,res) => {
 //__dirname store the path of the script file excluding the parent folder -> "/Users/wenjie/Documents/GIt/nodejs_1/node-web-server"
 app.use(express.static(__dirname + '/public'));
 
-app.listen(3000,() => {
-    console.log('server is up on port 3000');
+app.listen(port,() => {
+    console.log(`server is up on port ${port}`);
 });
