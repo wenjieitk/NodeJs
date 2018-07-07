@@ -26,6 +26,7 @@ app.get('/bad', (req,res) => {
 //middleware
 //.static = take the absolute path of directory
 //__dirname store the path of the script file excluding the parent folder -> "/Users/wenjie/Documents/GIt/nodejs_1/node-web-server"
+//{url}/help.html
 app.use(express.static(__dirname + '/public'));
 
 app.listen(port,() => {
