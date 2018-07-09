@@ -57,3 +57,11 @@ it('should expect some values', () => {
     expect(arr).to.deep.include(1);
     expect(obj2).to.deep.include({a:1});
 });
+
+// async code testing - done
+it('should async add two numbers', (done) => {
+    utils.asyncAdd(4,3,(sum) => {
+        expect(sum).to.deep.equal(7).to.deep.to.be.a('number');
+        done();
+    })
+});
