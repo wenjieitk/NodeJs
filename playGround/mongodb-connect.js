@@ -1,4 +1,5 @@
-const MongoClient = require('mongodb').MongoClient;
+const {MongoClient, ObjectID} = require('mongodb');
+
 
 MongoClient.connect('mongodb://localhost:27017/TodoApp', (err,client) =>{ // create TodoApp db
     if(err) {
@@ -27,6 +28,7 @@ MongoClient.connect('mongodb://localhost:27017/TodoApp', (err,client) =>{ // cre
         }
 
         console.log(JSON.stringify(result.ops, undefined, 2)); // result.ops -> to show the result added
+        console.log(result.ops[0]._id.getTimestamp()); // get timestamp from object_id
     });
 
     client.close();
