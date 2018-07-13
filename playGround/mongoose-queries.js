@@ -18,5 +18,9 @@ Todo.findOne({
 });
 
 Todo.findById(id).then((todos) => {
+    if(!todos){
+        return console.log('ID not found');
+        
+    }
     console.log('\nfindById \n', todos);
 });
