@@ -74,11 +74,9 @@ app.delete('/todos/:id',(req,res) => {
     // Todo.findOneAndRemove({_id:id}).then((todo) => {
     //     if(!todo){
     //         return res.status(404).send();
-    //     }
-    //     console.log(todo);
-        
+    //     }        
 
-    //     res.send(todo);
+    //     res.send({todo});
     // }).catch((error) => {
     //     res.status(400).send(error);
     // });
@@ -87,8 +85,6 @@ app.delete('/todos/:id',(req,res) => {
         if(!todo){
             return res.status(404).send();
         }
-        console.log(todo);
-        
 
         res.send({todo});
     }).catch((error) => {
