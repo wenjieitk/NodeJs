@@ -90,7 +90,7 @@ app.delete('/todos/:id',(req,res) => {
         console.log(todo);
         
 
-        res.send(todo);
+        res.send({todo});
     }).catch((error) => {
         res.status(400).send(error);
     });
