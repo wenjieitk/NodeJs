@@ -154,3 +154,53 @@ describe('DELETE /todos/:id',() =>{
         .end(done);
     });
 });
+
+
+describe('PATCH /todos/:id',() =>{
+    it('should update the todo', (done) => {
+        //grab id of first item
+        let hexId = todos[0]._id.toHexString();
+        let text = 'This should be the new text';
+
+        //update text, set completed true
+        //200
+        //text is changed, completed is true, completedAt is a number .to.equal
+        request(app)
+            .patch(`/todos/${hexId}`)
+            .send({
+                completed:true,
+                text
+            })
+            .expect(200)
+            .expect((res)=> {
+                expect(res.body.todo.text).to.deep.equal(text);
+                expect(res.body.todo.completed).to.be.true;
+                expect(res.body.todo.completedAt).to.be.a('number');
+            })
+            .end(done);
+
+    });
+
+    it('should clear completedAt when todo is not completed', (done) => {
+        // grab id of second todo item
+        let hexId = todos[1]._id.toHexString();
+        let text = 'This should be the new text!!';
+
+        //update text, set completed to false
+        //200
+        //text is changed, completed false, compltedAt is null .toNotExis
+        request(app)
+            .patch(`/todos/${hexId}`)
+            .send({
+                completed:false,
+                text
+            })
+            .expect(200)
+            .expect((res)=> {
+                expect(res.body.todo.text).to.deep.equal(text);
+                expect(res.body.todo.completed).to.be.false;
+                expect(res.body.todo.completedAt).to.not.exist;
+            })
+            .end(done);
+    });
+});
