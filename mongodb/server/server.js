@@ -13,6 +13,7 @@ let app = express();
 //middleWare
 app.use(bodyParser.json());
 
+/********  Todo API *********/
 app.post('/todos', (req, res)=>{
     let todo = new Todo({
         text: req.body.text
@@ -124,6 +125,21 @@ app.patch('/todos/:id', (req,res) => {
 });
 
 
+/********  User API *********/
+app.post('/users', (req, res)=>{
+    let body = _.pick(req.body,['email','password']);
+    let user = new User(body);
+
+    user.save().then((doc) => {
+        res.send(doc);
+    }).catch((error) => {
+        res.status(400).send(error);
+    });
+});
+
+
+
+/******** Port listening *********/
 app.listen(port,() => {
     console.log(`Started up at port ${port}`);
 });
