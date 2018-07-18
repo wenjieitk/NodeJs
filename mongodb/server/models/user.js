@@ -37,7 +37,7 @@ let UserSchema = new mongoose.Schema({
 
 // to override the mongoose method -> convert value to Json before sent back
 UserSchema.methods.toJSON = function() {
-    let user = this;
+    let user = this;// call instance
 
     console.log( 'toJSON this\n' + this);
     /** this 
@@ -59,7 +59,7 @@ UserSchema.methods.toJSON = function() {
 };
 
 UserSchema.methods.generateAuthToken = function() {
-    let user = this;
+    let user = this;// call instance
     console.log( 'generateAuthToken this\n' + this);
     /** this
         { 
@@ -86,6 +86,34 @@ UserSchema.methods.generateAuthToken = function() {
         return token;
     }).then((token) => {
         return token;
+    });
+};
+
+// statics = model method
+UserSchema.statics.findByToken = function(token) {
+    let User = this; // call model
+    /**
+        function model(doc, fields, skipId) {
+            model.hooks.execPreSync('createModel', doc);
+            if (!(this instanceof model)) {
+                return new model(doc, fields, skipId);
+            }
+            Model.call(this, doc, fields, skipId);
+        }
+     */
+    
+    let decoded;
+
+    try{
+        decoded = jwt.verify(token, 'secretKey');
+    }catch(error){
+        return Promise.reject();
+    }
+
+    return User.findOne({
+        _id: decoded._id,
+        'tokens.token': token,
+        'tokens.access': 'auth'
     });
 };
 
