@@ -123,13 +123,14 @@ UserSchema.pre('save', function(next){
 
     if(user.isModified('password')){
         bcrypt.genSalt(10, (err,salt) => {
+            console.log('\n password is modified',user.password);
+            
             bcrypt.hash(user.password, salt,(err,hash) => {
                 user.password = hash;
                 next();
             }); 
         }); 
     }else{
-
         next();
     }
 });
