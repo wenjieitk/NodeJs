@@ -1,3 +1,11 @@
+/**
+ * socket.emit = emits an event to single connection
+ * socket.on = listen from client
+ * io.emit = emits an envent to EVERY single connection
+ * io.on = the socket connection is start
+ * socket.broadcast.emit = send to all the connection but me
+ */
+
 const path = require('path');
 const express = require('express');
 const socketIO = require('socket.io');
@@ -14,27 +22,41 @@ app.use(express.static(publicPath));
 
 // when server is started
 io.on('connection', (socket) => {
-    console.log('server connected');
+    console.log('New user connected');
+  
+    socket.emit('newMessage', {
+      from: 'Admin',
+      text: 'Welcome to the chat app',
+      createdAt: new Date().getTime()
+    });
+  
+    socket.broadcast.emit('newMessage', {
+      from: 'Admin',
+      text: 'New user joined',
+      createdAt: new Date().getTime()
+    });
+  
+    socket.on('createMessage', (message) => {
+      console.log('createMessage', message);
+      io.emit('newMessage', {
+        from: message.from,
+        text: message.text,
+        createdAt: new Date().getTime()
+      });
+    });
 
-    // when server is disconnected
+    socket.on('userLogin', (user) => {
+        io.emit('newMessage', {
+            status: 'Login success',
+            name: user.userName,
+            time: new Date().getTime()
+        });
+      }); 
+  
     socket.on('disconnect', () => {
-        console.log('server disconnected');
+      console.log('User was disconnected');
     });
-
-    /**********  socket event  ************/
-
-    // fire to client
-    socket.emit('newEmail',{
-        from: 'bal@sdfcom',
-        text: 'test'
-    });
-
-    // listen from client
-    socket.on('createEmail',(newEmail) => {
-        console.log(`createEmail ${JSON.stringify(newEmail)}`);
-    })
-
-});
+  });
 
 /******** Port listening *********/
 server.listen(port,() => {
