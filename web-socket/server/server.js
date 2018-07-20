@@ -12,14 +12,28 @@ let io = socketIO(server);
 // to start up the html page
 app.use(express.static(publicPath));
 
-//socket function
+// when server is started
 io.on('connection', (socket) => {
     console.log('server connected');
-    
+
+    // when server is disconnected
     socket.on('disconnect', () => {
         console.log('server disconnected');
-        
     });
+
+    /**********  socket event  ************/
+
+    // fire to client
+    socket.emit('newEmail',{
+        from: 'bal@sdfcom',
+        text: 'test'
+    });
+
+    // listen from client
+    socket.on('createEmail',(newEmail) => {
+        console.log(`createEmail ${JSON.stringify(newEmail)}`);
+    })
+
 });
 
 /******** Port listening *********/
