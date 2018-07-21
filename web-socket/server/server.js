@@ -31,10 +31,11 @@ io.on('connection', (socket) => {
   
     socket.broadcast.emit('Notification', generateMessage('Admin','New User Join'));
   
-    socket.on('createMessage', (message) => {
+    socket.on('createMessage', (message, callback) => {
       console.log('createMessage', message);
 
       io.emit('newMessage', generateMessage(message.from, message.text));
+      callback('this string is from callback');
     });
 
     socket.on('userLogin', (user) => {
